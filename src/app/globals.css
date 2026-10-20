@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+/* Token desain: hijau daun kopi, latar sage, saffron untuk aksi bayar */
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #eef1ef;
+  --color-surface: #ffffff;
+  --color-ink: #1d2b27;
+  --color-muted: #66756f;
+  --color-line: #d5dcd8;
+  --color-leaf: #1f5e4f;
+  --color-leaf-dark: #164537;
+  --color-leaf-soft: #e1ece8;
+  --color-saffron: #f2b33d;
+  --color-saffron-dark: #d99a22;
+  --color-danger: #b4412f;
+  --color-danger-soft: #f6e3df;
+  --color-warn-soft: #fbefd3;
+  --color-chart: #0f8a63; /* warna batang grafik (lolos uji chroma & kontras) */
+  --color-grid: #e7ece9;
+}
+
+html,
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+body {
+  font-feature-settings: 'tnum' 1, 'cv11' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-leaf);
+  outline-offset: 2px;
+}
+
+/* Tepi berlubang ala tiket pesanan pada panel keranjang */
+.ticket {
+  --hole: 7px;
+  background: var(--color-surface);
+  -webkit-mask:
+    radial-gradient(circle var(--hole) at 50% 0, transparent 98%, #000) 0 0 / calc(var(--hole) * 3) 51% repeat-x,
+    radial-gradient(circle var(--hole) at 50% 100%, transparent 98%, #000) 0 100% / calc(var(--hole) * 3) 51% repeat-x;
+  mask:
+    radial-gradient(circle var(--hole) at 50% 0, transparent 98%, #000) 0 0 / calc(var(--hole) * 3) 51% repeat-x,
+    radial-gradient(circle var(--hole) at 50% 100%, transparent 98%, #000) 0 100% / calc(var(--hole) * 3) 51% repeat-x;
+}
+
+.ticket-rule {
+  border-top: 2px dashed var(--color-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Cetak struk (printer thermal 58mm) ---------- */
+#print-root {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: 58mm auto;
+    margin: 0;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #print-root,
+  #print-root * {
+    visibility: visible;
+  }
+  #print-root {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 58mm;
+    padding: 3mm;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    line-height: 1.35;
+    color: #000;
+    background: #fff;
+  }
+}
